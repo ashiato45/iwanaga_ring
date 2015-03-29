@@ -1,0 +1,1029 @@
+\documentclass[9pt]{ltjsarticle}
+\usepackage{xcolor}
+
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+\newcommand{\bbold}{\mathbbold}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{enumitem}
+\usepackage{ashiato45}
+%\usepackage{okumacro}
+\def\MARU#1{\textcircled{\scriptsize #1}}
+\usepackage{graphicx}
+\usepackage{ulem}
+\usepackage{framed}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{here}
+\usepackage{mytheorems}
+\usepackage{tikz}
+\usetikzlibrary{cd}
+%\usepackage{mathabx} % for leftrightsquigarrow
+
+\title{環と加群のホモロジー代数的理論のメモ}
+\author{ashiato45のメモ，著者は岩永恭雄、佐藤眞久}
+
+
+
+\renewcommand{\bf}{\mathbf}
+
+
+\begin{document}
+\maketitle
+
+TODO: 句読点直す。
+
+\section{環とその基本的な性質}
+\label{sec:環とその基本的な性質}
+
+\subsection{環の定義と例}
+\label{sub:環の定義と例}
+
+環とそのまわりの基本的な言葉を定義した。部分環は、1の一致までは要求していないことに注意する。$R$の元を要素とする正方行列を「$n$次全行列環」とよんでいる。
+
+多項式環、多変数多項式環を定義しているが、非可換環を扱っているので、
+非可換の多項式を定義しており、$a\in R$とし、$X$を文字としたとき、
+$aX$と$Xa$は別のものとみなしている。次数がかわらないことを要請して、
+$a\in R$について
+\begin{align}
+  Xa = \delta(a)  + \alpha(a)X
+\end{align}
+とし、その性質を調べた。
+\begin{itemize}
+  \item 多項式の分配法則を仮定し、
+  \begin{align}
+    \delta(a+b) + \alpha(a+b)X
+    &=
+    X(a+b)\\
+    &=
+    Xa + Xb\\
+    &=
+    (\delta(a) + \alpha(a)X) + (\delta(b) + \alpha(b)X)\\
+    &=
+    (\delta(a)+\delta(b)) + (\alpha(a)+\alpha(b))X
+  \end{align}
+  となっているので、多項式の表示の一意性を仮定すると、
+  \begin{align}
+    \delta(a+b) = \delta(a) + \delta(b),\quad \alpha(a+b) = \alpha(a) + \alpha(b)
+  \end{align}
+  と、$\delta,\alpha$の両方に和の保存の性質が要請される。
+  \item 結合法則を仮定し、
+  \begin{align}
+    \delta(ab ) + \alpha(ab)X
+    &=
+    X(ab)\\
+    &=
+    (Xa)b\\
+    &=
+    (\delta(a) + \alpha(a)X)b\\
+    &=
+    \delta(a)b + \alpha(a)(Xb)\\
+    &=
+    \delta(a)b + \alpha(a)(\delta(b)+\alpha(b)X)\\
+    &=
+    (\delta(a)b + \alpha(a)\delta(b)) + \alpha(a)\alpha(b)X
+  \end{align}
+  となり、表示の一意性を仮定すれば、
+  \begin{align}
+    \delta(ab) = \delta(a)b + \alpha(a)\delta(b),\quad \alpha(ab) = \alpha(a)\alpha(b)
+  \end{align}
+  となる。つまり、$\delta$には$\alpha$を使ったLeibnitz ruleもどきが、
+  $\alpha$には積の保存が要請される。
+  \item 最後に、1の性質として$X\cdot 1 = 1\cdot X$を仮定すると、
+  \begin{align}
+    \delta(1) + \alpha(1)X
+    &=
+    X\cdot 1\\
+    &=
+    1\cdot X\\
+    &=
+    0 + 1\cdot X
+  \end{align}
+  となり、
+  \begin{align}
+    \delta(1) = 0,\quad \alpha(1) = 1
+  \end{align}
+  が要請される。
+\end{itemize}
+まとめると、
+\begin{description}
+  \item[和の法則]
+  \begin{align}
+    \delta(a+b) = \delta(a) + \delta(b),\quad \alpha(a+b) = \alpha(a) + \alpha(b).
+  \end{align}
+  \item[積の法則]
+  \begin{align}
+    \delta(ab) = \delta(a)b + \alpha(a)\delta(b),\quad \alpha(ab)=\alpha(a)\alpha(b).
+  \end{align}
+  \item[1の法則]
+  \begin{align}
+    \delta(1) = 0,\quad \alpha(1) = 1.
+  \end{align}
+\end{description}
+が要求され、これらをみたす$delta$を$\alpha$-微分とよんだ。
+
+さらに$aX$から$Xa$の表示を得るために、$\alpha$に全単射性を要求すると、
+非可換多項式環$R[X;\alpha,\delta]$が得られる。
+
+多元環は、いわゆるalgebraで、可換体上のベクトル空間に積を入れて環構造も入れたものである。このベクトル空間の次元が有限次元で、$n$次元のときは、この多元環を$n$次元多元環とよぶ。当たり前だが、この積は非可換かもしれない。三角行列が例えばalgebraになるのは面白い。
+
+群環を導入している。これは群$G$を固定して、群の要素の$R$での線形結合のなす環である。係数の$R$が体$K$のときはalgebraになる。
+
+環の直積も入れている。
+
+\subsection{環準同型}
+\label{sub:環準同型}
+環準同型は、1の保存、和の保存、積の保存をすべてみたす環から環への写像である。
+
+ある環が全行列環と同型な場合というのがどういうときかを考えている。
+それを特徴付けるのは、「ある1つの要素だけが1である行列」である、行列単位$e_{ij}$であると考えられるので、
+\begin{align}
+  e_{ij}e_{kl} = \delta_{jk} e{il} ,\quad \sum_{i=1}^n e_{ii} = 1
+\end{align}
+となることが$n$次全行列環と同型であるための条件になりそうである。
+なお、「$n$次」は後半の、単位行列相当のものを作るところで効いている。実際これで、
+「全行列環相当の環」$R$の$a$からその$i$行$j$列目のスカラーを取り出す気分で、
+\begin{align}
+  a_{ij} = \sum_{k=1}^n e_{ki}a e_{jk}
+\end{align}
+とする。ただし、スカラーそのものは取り出せるわけがないので、代わりに
+スカラー行列っぽいものを取り出している。$\sum$はそのために効いている。
+
+あとイデアルの話をすこしして、単純環を定義する。これは、
+イデアルが自明なイデアル以外ない、すなわちイデアルが$(0),(1)$だけである環である。
+ここで、体上の全行列環はすべて単純環であること、さらに実は、単純環上の全行列環
+もすべて単純環であることが示される。例を作るためにこの辺をいじって無駄な努力をしなくてすみそうで便利そう。
+これは、環$R$について、その$n$次全行列環$(R)_n$のイデアル$J$は、
+実はその左上の元を集めた集合$I\subset R$(これもイデアルになる)から作った$(I)_n$
+に一致してしまうということから従う。
+\begin{myproof}
+  \begin{itemize}
+    \item $J \subset (I)_n$:$X \in J \subset (R)_n$とする。
+    $X$に変形を左右からかけることで、$X$の任意の要素を
+    左上に持ってくることができる。
+    具体的に$(y,x)$成分を持っていくには、
+    \begin{align}
+      \ub{e_{1y}}_{y行目を1行目に} X \ub{e_{x1}}_{x列目を1列目に}
+    \end{align}
+    とすればよい。
+    $X \in J$なので、変形をかけたものも$J$に属する。よって、$X$の任意の要素が$I$に入ることがわかり、$X \in (I)_n$となる。
+    \item $(I)_n \subset J$:
+    \begin{align}
+      \set{r e_{ij} ; r\in I,\quad 1\le i,j \le n}
+    \end{align}
+    は$(I)_n$を生成するので、これらが$J$に属することを示せば十分である。
+    $r e_{ij} \in J$を示そう。$r\in I$なので、$re_{11} in J$ではある。
+    これに変形をかけても$J$に属するので、
+    \begin{align}
+      re_{ij} = e_{i1} (re_{11}) r_{1j} \in J.
+    \end{align}
+  \end{itemize}
+\end{myproof}
+
+単項イデアル環の話をする。単項イデアル整域じゃないのが不思議。
+整数環と非可換多項式環にEuclidの互除法を使って単項イデアル環であることを示す。
+
+\subsection{剰余環}
+\label{sub:剰余環}
+剰余環と自然な全射の話をして、準同型定理の話をする。
+環準同型$\varphi\colon R\to T$について、
+\begin{center}
+  \begin{tikzcd}
+    R \ar[rr, "\varphi"] \ar[rd, "\eta"] &  & T \\
+    & R/\ker(\varphi) \ar[hook, ru, "\overline\varphi"]&
+  \end{tikzcd}
+\end{center}
+
+中国剰余定理が示せる。$R$を環として、$I,J$をこのイデアルで、$I+J=R$なるものとすると、$R/(I\cap J) \simeq R/I \times R/J$。
+\begin{myproof}
+  $\varphi\colon R \to R/I \times R/J$を、$\varphi(a) = (a+I,a+J)$なるものとする。これが全射であることを示す。$I+J=R$なので、$\xi+\eta=1$なる$\xi\in I,\eta\in J$が存在する。
+  \begin{align}
+    (x+I,y+J)
+    &=
+    ((x\xi + x\eta) + I, (y\xi + y\eta) + J)\\
+    &=
+    (x\eta + I, y\xi + J)\\
+    &=
+    ((x\eta + y\xi) + I, (y\xi + x\eta) + J)
+  \end{align}
+  なので、$\varphi(x\eta + y\xi) = (x+I,y+J)$となり、全射がわかった。
+  $\ker \varphi = I\cap J$なので、準同型定理より、$R/(I\cap J) \simeq R/I \times R/J$となる。
+\end{myproof}
+
+剰余環(イデアルですでに割ってある)のイデアルを考えてみる。
+$R/I$のイデアルを$\Delta$として、$\set{x ; x + I \in R/I} \subset R$
+はイデアルになって、しかも$I$を含んでいる。というわけで、
+\begin{align}
+  R/I のイデアル \rightsquigarrow I を包む R のイデアル
+\end{align}
+と作れる。一方、$R$の$I$を包むイデアル$L$
+について、$\set{x+ I ; x \in L}$を考えると、これは$R/I$のイデアルになっており、
+\begin{align}
+  I を包む R のイデアル \rightsquigarrow R/I のイデアル
+\end{align}
+となっている。これを、(記号の濫用だとは思うのだが)$L/I$と書く。$L$を、それより狭い$I$分同一視している。
+
+$\ub{I}_{狭い}\subset \ub{J}_{広い}$となっているとき、
+\begin{align}
+  \varphi \colon \ub{R/\ub{I}_{狭いイデアル}}_{広い剰余環} \to \ub{R/\ub{J}_{広いイデアル}}_{狭い剰余環} ,\quad x + I \mapsto x + J
+\end{align}
+とすると、ドメイン$R/I$での$I$分のずれが$I\subset J$より、
+コドメイン$R/J$での$J$に吸収されるので、well-definedで、しかも全射である。よって、準同型定理より、
+\begin{align}
+  (R/I)/(J/I) \simeq R/J
+\end{align}
+が得られる。
+
+あとは極大イデアルについて普通の話をしている。
+
+あとは逆極限の話をしている。$i\le j$に対して、$R_i \leftarrow R_j$
+という準同型が対応していて、それでただの直積を
+うまく拘束している感じだったなあと思った。出てきた例が全部全順序だったのが残念。
+
+\subsection{多元環の表現と加群の導入}
+\label{sub:多元環の表現と加群の導入}
+$n$次元$K$-algebra$R$の基底が、$x \in R$を左からかけることによって
+どこに飛ぶのかを、その基底での成分を行列で縦に左から並べる。
+あたりまえだがこの行列は
+$x$に依存する。この対応$x\mapsto (xに関する行列)$は環準同型になっていて、
+しかも単射になっているので、$K$-algebra$R$は、$(K)_n$の部分環
+であると見做せる。この対応$R \to (K)_n$を左正則表現とよぶ。同様のことが$x$を右からかけることでもでき、
+右正則表現とよばれる。
+
+$n$次元ベクトル空間$V$の自己準同型$\End(V)$と$(K)_n$との間には
+環同型がつき、$\End(V)\simeq (K)_n$となる。よって、
+正則表現を考えることにより、
+$K$-algebra $R$から$\End(V)$への単射が得られる。
+正則表現の一般化を考えるために、この単射の条件を外してみる。
+$V$を$d$次元($n$より小さいかも)ベクトル空間とする。
+$K$-algebra $R$から$\End(V)$への環準同型を、$R$の$V$での表現とよぶ。
+このとき、$V$を$R$の表現空間とよぶ\footnote{$V$を「表現$\Phi$の」表現空間とかなら分かるんだけど…}。
+$\Phi \colon R \to \End(V)$を表現とすると、
+これは単射ではないので一般には$\ker \Phi \neq \zeroset$だが、
+これで割った$\overline \Phi\colon R/(\ker \Phi) \to \End(V)$
+は単射になる。単射を外したツケはある意味ここで回収できる？
+
+いままではalgebraに限定して、$K$-algebraとベクトル空間の組のみ考えてきたが、一般に環でも似たようなものを考えたいということで、
+環と加群の組である、環上の加群を定義する。
+環上の加群は環$R$の加群$M$に対する線形な作用を考えているが、
+この「$R$の$M$に対する線形な作用$R\times M \to M$」から、
+「$R$から$\End(M)$への環準同型$R\to \End(M)$」を作ることができ、
+逆もまた作れる。さらに、ベクトル空間は加群でもあり、
+ベクトル空間の準同型に要求されているものが加群の準同型に
+要求されているものよりもきついので、
+$R$を$K$-algebraとし、$V$を$R$の表現空間とすると、
+\begin{align}
+  \ub{\End_K(V)}_{ベクトル空間として} \subset \ub{\End(V)}_{加群として}
+\end{align}
+となり、環上の加群は多元環の表現の拡張になっている。
+
+\begin{enumerate}[label=(問題\arabic*)]
+  \item[(練習問題 1-7)]
+  $K$を可換体とする。$K$-多元環$R$である$K[X]/(X^4)$の正則表現を求め、これがFrobenius多元環であることを示せ。
+
+  $R$の基底として、$\set{[1],[X],[X^2],[X^3]}$をとる。
+  \begin{align}
+    x = a_1(x)[1] + a_2(x)[X] + a_3(x)[X^2] + a_4(x)[X^3]
+  \end{align}
+  とおいておく。左正則表現を求める。
+  \begin{align}
+    x[1] &= a_1(x)[1] + a_2(x)[X] + a_3(x)[X^2] + a_4(x)[X^3] \\
+    x[X] &= a_1(x)[X] + a_2(x)[X^2] + a_3(x)[X^3]\\
+    x[X^2] &= a_1(x)[X^2] + a_2(x)[X^3] \\
+    x[X^3] &= a_1(x)[X^3].
+  \end{align}
+  よって、左正則表現は、
+  \begin{align}
+    x \mapsto
+    \begin{pmatrix}
+      a_1(x)&0 &0 &0 \\
+      a_2(x)&a_1(x) &0 &0 \\
+      a_3(x)&a_2(x) &a_1(x) &0 \\
+      a_4(x)&a_3(x) &a_2(x) &a_1(x)
+    \end{pmatrix}
+  \end{align}
+  である。可換体上で考えているので右正則表現もおなじになって、Frobenius多元環である。
+  \item
+  \begin{enumerate}[label=(\arabic*)]
+    \item
+    $x = \prod_{i=1}^s q_i^{b_i}$が羃零元であるとする。
+    $x^m = \prod_{i=1}^s q_i^{b_i m} = 0 (\bmod (n))$となる$m$がある。
+    このとき、$\prod_{i=1}^t p_t^{a_t} | x^m$であり、
+    任意の$i$について$p_i | x^m$である。よって、$p_i | x$である。
+
+    逆に、任意の$i$について$p_i | x$とする。
+    $\prod_{i=1}^t p_i | x$となる。
+    $M = \max(a_1,\dots,a_t)$とする。
+    $n | \prod_{i=1}^t p_i^M | x^M$となり、$x$は羃零である。
+    \item 可換環であることから、二項定理より従う。
+    \item $\sum_{i=0}^\infty (-1)^i x^i$は、$x$が羃零であることから
+    有限和であり、これが$1+x$の逆元となる。よって、$1+x$は単元である。
+  \end{enumerate}
+  \item 零元は$M(0)$、単位元は$M(1)$、$M(a+b) = M(a)+M(b)$であり、
+  $M(ab) = M(a)M(b)$であり、$M(a)^{-1} = M(1/a)$である。
+  \item
+  \begin{enumerate}[label=(\arabic*)]
+    \item $T_2(\R)$は下三角行列だった。
+    \begin{align}
+      e_1 r e_2
+      &=
+      \tatev{1 & 0 \\ 0 & 0} \tatev{a & 0 \\ c & d} \tatev{0 & 0 \\ 0 & 1}\\
+      &=
+      \tatev{a & 0 \\ 0 & 0} \tatev{0 & 0 \\ 0 & 1}\\
+      &=
+      \tatev{0 & 0 \\ 0 & 0}.
+    \end{align}
+    \item 略。
+    \item 準同型定理より、$e_2 R e_2 \simeq R/(Ke_1 + Ke_2)\simeq K$。
+  \end{enumerate}
+  \item
+  \begin{enumerate}[label=(\arabic*)]
+    \item $a$が非可逆だとする。このとき、$a$に対応する行列$A$を考えると、$A$も非可逆である。よって、$A$は固有値0を持つ。
+    よって、$A$の最小多項式$\varphi$は$\varphi(x) = x \tilde \varphi(x)$と書ける。最小多項式の定義より、$\varphi(A) = A \tilde \varphi(A)  = 0$
+    となり、さらに$\varphi$の最小性より$\varphi(A)\neq 0$である。よって、$B=\tilde \varphi(A)$とすれば、これが$A$にかけて
+    0となる非零元であり、$a$に対しては$\varphi(a)$が得られる。
+    さらに、多項式のほうは可換なので$\varphi(x) = \tilde \varphi(x)x$でもあり、$\varphi(a)a = 0$である。
+    \item ？？？
+  \end{enumerate}
+  \item 結合則をみたさない。
+  \end{enumerate}
+
+\section{加群と準同型写像}
+\label{sec:加群と準同型写像}
+\subsection{準同型写像と部分加群}
+\label{sub:準同型写像と部分加群}
+$R$-加群と準同型写像、部分加群の定義をしている。
+そして、部分加群を使って、環の右イデアル、左イデアルの定義をしている。
+これは、環の左イデアルというのは、左$R$-加群$R$である、$\Lmod{R}R$の部分加群であり、右イデアルというのは、右$R$-加群$R$である、$\Rmod{R}R$の部分加群として定義される。係数環での巡回部分加群$Rx = \set{ax ; a\in R}$と、
+1元で生成される巡回加群が定義される。自明な部分加群は$\set{0}$とそれ自身だが、この2つしか持たない加群を単純加群という。$\zeroset$は単純加群とは呼ばないことに注意。極小部分加群、極大部分加群も定義される。
+ここの注意の「単純環$R$は、$R$-加群として単純$R$-加群とは限らない」については、単純環はイデアルを見なければならないのに対し、
+$R$が単純$R$-加群かどうかを見るには左イデアルだけ見ればいいことに起因する。よって、例えば全行列環について$\tatev{* & 0 \\ * & 0}$という左イデアルが取れる。
+
+あとは部分加群の和、交わりを定義する。
+
+モジュラー則「$R$-加群$L,M,N$について、$M\subset L$ならば$L\cap (M+N) = M + (L\cap N)$」を示す。
+\begin{myproof}
+  \begin{itemize}
+    \item $\subset$:$x \in L\cap (M+N)$とする。$x=l=m+n$と書ける。
+    $M\subset L$なので、$n=l-m \in L$であり、$n \in L\cap N$である。
+    $m \in M$だったので、$x = m+n \in M+(L\cap N)$である。
+    \item $\supset$:$x\in M+(L\cap N)$とする。$x=m+y$で、
+    $m\in M,y \in L\cap N$となるものが存在する。
+    $M\subset L$なので、$m\in L$であり、さらに$m\in M \subset M+N$なので、
+    $m\in L\cap (M+N)$である。また、$y\in L\cap N$なので、
+    $y\in L$であり、さらに$y\in N \subset M+N$である。よって、
+    $x=m+y \in L\cap (M+N)$である。
+  \end{itemize}
+\end{myproof}
+日本語名をつけるなら、$狭 \subset 広$について、
+$広 \cap (狭 + N) = 狭 + (広 \cap N)$となっている。
+ベクトル空間で図を描いてみる。
+\easypicture{1427389668710.png}
+こうしてみると、$\subset$を示すときは代表として$m+n$をとって、
+「$m+n \in L\cap (M+N)$である」と言ったほうが綺麗に行ったなあ。
+
+あとは生成系と有限生成加群の話をする。
+
+\subsection{剰余加群}
+\label{sub:剰余加群}
+剰余加群、自然な全射の話をする。
+
+練習問題2-4を解く。
+\begin{myproof}
+  $R$準同型$f\colon M \to N$について、以下は同値であることを示す:
+  \begin{enumerate}[label=(\arabic*)]
+    \item $f$は全射
+    \item $\alpha,\beta\colon N\to L$を$R$準同型とすると、$\alpha \circ f = \beta \circ f \implies \alpha = \beta$
+    \item $\alpha\colon N \to L$を$R$準同型とすると、$\alpha\circ f = 0 \implies \alpha = 0$
+  \end{enumerate}
+  (2)$\iff$(3)は準同型と分配法則から言える。(1)$\implies$(3)は、
+  $\alpha\circ f = 0$より$\Image f \subset \ker \alpha$であり、
+  (1)より$N = \Image f$なので、$N \subset \ker \alpha \subset N$で、
+  $N=\ker \alpha$である。(3)$\implies$(1)は、対偶を示す。$f$は全射でないとする。$f(m)=n \notin \Image f$なる$m,n$が存在する。
+  $0\in \Image f$なので、$n\neq 0$である。
+  $\alpha\colon N\to N$を、
+  $\alpha(n)=n$となるものとする。このとき、$\alpha$の挙動は
+  $Rn$上では定まる。そして、$\alpha(\Image f) = 0$とする。
+  $n \notin \Image f$より、$\Image f \cap (nM) = \zeroset$であり、
+  これらの定義は矛盾しない。このとき、$\alpha \circ f = 0$であるが、
+  $\alpha \neq 0$であり、対偶が示された。
+\end{myproof}
+
+環のときと同様、$R$加群$M$の部分加群$N$について、
+\begin{align}
+  (Nを包む部分加群) \leftrightsquigarrow (M/N の部分加群)
+\end{align}
+となり、$N$を包む$M$の部分加群$L$に対応するものを$L/N$と書く。
+$L/N \subset M/N$である。
+
+極大部分加群であることの判定には、
+巡回加群は単純加群であることを利用すると便利である。
+加群$M$に$K$ベクトル空間としての構造と
+$R$加群としての構造が同時に入ることが有り得るが、
+その2つの構造は必ずしも一致せず、$K$ベクトル空間としては同型なのに
+$R$加群としては同型ではないということは起こりうる。
+
+準同型定理と同型定理「$L\subset N \subset M$について、
+$(L/M)/(N/M) \simeq L/N$」は環と同様に成立するが、今回はさらに
+「$L,N \subset M$について、$(N+L)/N \simeq L/(L\cap N)$」が成立する。
+\begin{align}
+  (潰+延)/潰 \simeq 延/(延 \cap 潰).
+\end{align}
+例えば$(潰\cap 延) = \zeroset$のときを考えると、
+$(潰 + 延)$で張り切って(共通部分が空なので綺麗に延びる)
+$潰$を延長したが、$\bullet/潰$でばっさり潰されて元通りになる感じがある。
+$潰 \subset 延$のときには、どちらも$延/潰$になって、延ばした甲斐があったという感じがある。$延 \subset 潰$のときには、そもそも延ばせずに
+$(潰 + 延) = 潰$になっていて、そのままさらに潰されてどちらも$\zeroset$になる。
+
+ある左$R$加群$M$が巡回加群であることは、この加群が$\Lmod{R}{R}$の
+ある剰余加群になっていることであることを見る。
+左$R$加群$M$と、その部分集合$X (\subset \Lmod{R}M)$について、
+$X$を消す$R$たちを$\Ann_R(X) (\subset R)$と書き、
+$X$の零化イデアルという。これは、もとが左加群のときは
+$R$の左イデアルになっている。これは右イデアルとは限らないが、
+$A$を$\Lmod{R}M$の部分加群とすると、$\Ann_R(A)$は$R$の右イデアルにもなり、
+(両側)イデアルとなる。右加群にも同じ記号を使う。このときは普通は右イデアルになり、部分加群を使えば両側イデアルになる。
+このうち特に、左$R$加群$\Lmod{R}R$とその部分集合$X$についての零化イデアル$\Ann_R(X)$
+は、$l_R(X)$と書き(こう書かないと$\Lmod{R}R$だか$\Rmod{R}R$だかわからない)、右$R$加群$\Rmod{R}R$については$r_R(X)$と書く。
+
+こうしておくと、左$R$加群$M$について、
+「$\Lmod{R}M$は巡回加群 $\iff$ $\Lmod{R}M$は$\Lmod{R}R$の剰余加群」
+が示せる。
+\begin{myproof}
+  \begin{itemize}
+    \item $\Rightarrow$:$x\in M$が存在して、$M = Rx$とする。
+    さらに、全射準同型$\varphi \colon \Lmod{R}R \to \Lmod{R}M$で、
+    $\varphi\colon r\mapsto rx$なるものを考える。このとき、
+    $\ker(\varphi) = \set{r ; rx=0} = \Ann_R(x)$なので、
+    準同型定理より$\Lmod{R}R/\Ann_R(x) \simeq \Lmod{R}M$となる。
+    \item $\Leftarrow$:
+    $\Lmod{R}M \simeq \Lmod{R}R/\Lmod{R}A$となる部分加群$\Lmod{R}A \subset \Lmod{R}R$が存在する。さらに、標準全射
+    $\pi\colon \Lmod{R}R \to \Lmod{R}M$が存在する。$m \in \Lmod{R}M$とする。全射より、$\pi(r) = m$となる$r$が存在するが、
+    $\pi(r) = \pi(r\cdot 1_R) = r\pi(1_R)$であり、$m = r\pi(1_R)$である。
+    $m$は任意であったから、$\Lmod{R}M = R\pi(1_R)$であり、$\Lmod{R}M$は
+    $\pi(1_R)$で生成される巡回加群である。
+  \end{itemize}
+\end{myproof}
+
+この話とは関係ないが
+「$I$を含むイデアルと$R/I$のイデアルの一対一対応」より、
+「$M$を$R$加群、$L \le M$としたとき、『$L$は$M$の極大部分加群
+$\iff$ $M/L$は単純加群』」という判定条件が得られる。
+
+反例:なんとなく思ったのだが、「巡回加群であるが単純加群ではない」というものはあるのだろうか？→$\Lmod{\Z}\Z$は$(2)$を部分加群として持つので単純加群ではないが、$1$で生成されるので、巡回加群ではある。
+
+極大部分加群を使った単純加群の特徴付けができたので、
+このような特徴付けが得られる。「$\zeroset$でない左$R$加群$\Lmod{R}S$について、以下は同値である:
+\begin{enumerate}[label=(\arabic*)]
+  \item $S$は単純加群
+  \item ある$\Lmod{R}R$の極大部分加群$\Lmod{R}A$が存在して、
+  $\Lmod{R}R/\Lmod{R}A \simeq \Lmod{R}S$となる
+  \item 任意の$x\in S\setminus\zeroset$について、$S = Rx$
+\end{enumerate}
+」
+\begin{myproof}
+  \begin{itemize}
+    \item (1)$\implies$(3):
+    $x\in S\setminus\zeroset$とする。$Rx$は$S$の部分加群であり、しかも
+    $x\neq 0$より$\zeroset$でない。(1)より、$Rx = S$である。
+    \item (3)$\implies$ (1):
+    $A$を$S$の部分加群とする。さらに、$A\neq \zeroset$であるとする。
+    $x\in A\setminus\zeroset$が存在するのでそれを選ぶ。
+    $Rx$は$x$を含む最小の部分加群なので、$Rx \subset A$だが、
+    (3)より$Rx=S$なので、$S\subset A$となる。$A\subset S$なので、
+    $A=S$となり、$S$の部分加群は$\zeroset$でなければ$S$であることがわかった。よって、$S$は単純加群である。
+    \item (1),(3)$\implies$(2):
+    $S\neq \zeroset$なので、$x\in S\setminus\zeroset$が存在する。
+    (3)より、$S=Rx$である。よって、$S$は巡回加群である。
+    「巡回加群であることの剰余加群での特徴付け」より、
+    $S\simeq \Lmod{R}R/\Lmod{R}A$となる$\Lmod{R}A \subset \Lmod{R}R$が存在する。(1)より$S$は単純加群なので、$\Lmod{R}R/\Lmod{R}A$
+    も単純加群であり、「極大部分加群を使った単純加群の特徴付け」より、
+    $\Lmod{R}A$は$\Lmod{R}R$の極大部分加群である。これは
+    $A$が$R$の極大左イデアルであることの言い換えであり、示された。
+    \item (2)$\implies$(1):
+    極大部分加群を使った単純加群の特徴付けよりあきらか。
+  \end{itemize}
+\end{myproof}
+
+\subsection{加群の直和と直積}
+\label{sub:加群の直和と直積}
+直積、入射、射影の話をする。
+
+演習問題2-6を解く。
+\begin{enumerate}[label=(\arabic*)]
+  \item
+  \begin{align}
+    (\pi_j \nu_j)(x)
+    =
+    \pi_j((\delta_{ij}x)_{i\in I})
+    =
+    \delta_{ii}x
+    =
+    x.
+  \end{align}
+  よって、$\pi_j\nu_j = 1_{M_j}$である。
+  \begin{align}
+    (\pi_i \nu_j)(x)
+    =
+    \pi_i((\delta_{jk}x)_{k\in I})
+    =
+    \delta_{ji}x
+    =
+    0.
+  \end{align}
+  よって、$\pi_i \nu_j = 0$である。
+  \item
+  \begin{align}
+    x \in \ker(\varphi)
+    &\iff
+    \varphi(x) = 0 \\
+    &\iff
+    \Forall{i\in I} (\varphi(x)の第i成分) = 0\\
+    &\iff
+    \Forall{i\in I} (\pi_j\varphi)(x) = 0\\
+    &\iff
+    \Forall{i\in I} x\in \ker(\pi_j \varphi)\\
+    &\iff
+    x \in \bigcap_{i\in I} \ker(\pi_j \varphi).
+  \end{align}
+  \item
+  略
+  \item $\varphi\colon \prod_i M_i \to M$を$\varphi = \sum_i (\varphi_i \pi_i)$とし、$\psi\colon M\to \prod M_i$を$\psi =\sum_{i}\nu_i\psi_i$とすると同型になる。実際、
+  \begin{align}
+    \varphi\psi
+    &=
+    (\sum_i \varphi_i \pi_i)(\sum_j \nu_j \psi_j)\\
+    &=
+    \sum_i \sum_j \varphi_i \pi_i \nu_j \psi_j\\
+    &=
+    \sum_i \sum_j \varphi_i \delta_{ij} \psi_j\\
+    &=
+    \sum_i \varphi_i \psi_i\\
+    &\desceq{仮定}
+    1_M.
+  \end{align}
+  であり、
+  \begin{align}
+    \psi\varphi
+    &=
+    (\sum_i \nu_i \psi_i)(\sum_j \varphi_j \pi_j)\\
+    &=
+    \sum_i \sum_j \nu_i \psi_i \varphi_j \pi_j\\
+    &\desceq{仮定}
+    \sum_i \sum_j \nu_i \delta_{ij} 1_{M_i} \pi_j\\
+    &=
+    \sum_i \nu_i 1_{M_i} \pi_i\\
+    &=
+    1_M.
+  \end{align}
+練習問題おわり。
+
+忠実加群を定義する。
+ある環$R$を$\Lmod{R}R$と見たときに、何か加群$\Lmod{R}M$があって、
+$\prod_{x\in M} (M_x = M)$の部分加群と見なせるような状況を考えてみる。
+$\varphi\colon \Lmod{R}R \to \prod_{x\in M} M_x$(ただし、$M_x = M$)を
+\begin{align}
+  \varphi \colon r \mapsto (rx)_{x\in M}
+\end{align}
+とする。$\varphi(r)=0$となるというのは、全ての$M$すべてを$r$が消すということなので、$\ker \varphi = \Ann_R(M)$である。よって、
+\begin{align}
+  \Lmod{R}R/\Ann_R(M) \simeq \varphi(M) \subset \prod_{x\in M}M_x
+\end{align}
+となり、$\Lmod{R}R/\Ann_R(M)$が$\prod_{x\in M}M_x$という$M$たちの直和
+との部分環と同型になる。特に、$\Ann_R(R)=0$のときは$\varphi$は
+単射になり、
+\begin{center}
+  \begin{tikzcd}
+    \Lmod{R}R \ar[hook, r, "\varphi"] & \prod_{x\in M}M_x
+  \end{tikzcd}
+\end{center}
+となる。この条件、$\Ann_R(M)=0$をみたすとき、すなわち
+$M$すべてを消してしまうような$r\in R$がないとき、$\Lmod{R}M$は
+忠実加群であるという。
+\end{enumerate}
+
+直和を定義する。
+
+演習問題2-7を解く。
+$V$は$M(K;n)$とみなすことができる。
+$V$の部分加群$A$を考える。$A\neq \zeroset$とする。
+このとき、$x\in A\setminus\zeroset$が存在する。
+$x$に適切な$r\in R$をかけて、任意の$y \in M(K;n)$が作れればよい。
+$x$のどれかの要素は非0なので、これを1に正規化する
+列基本変形をかけ、さらに1列目と交換する列基本変形をかけ、
+これを用いて1列目以外を0にする列基本変形をかけ、
+$y$を作る列基本変形かければよい。この変形の列を$r$とすれば
+示された。
+演習問題おわり。
+
+直和を普遍性を使って特徴付ける。「$R$加群$M,M_\bullet$について、
+$M \simeq \bigoplus_{i\in I}M_i$である。 $\iff$
+\begin{align}
+  \Exists{\mu_\bullet\colon M_i \to M,準同型}\Forall{N}\Forall{\alpha_\bullet\colon M_\bullet \to N}\Exists{!\alpha\colon M\to N}
+\end{align}
+\begin{center}
+  \begin{tikzcd}
+    M_i \ar[rr, "\mu_i"] \ar[rd, "\alpha_i", swap] & & M \ar[ld, "\alpha", dotted]\\
+    & N &
+  \end{tikzcd}
+\end{center}
+となる。」
+「injectionっぽいのがある」という感じがする。
+\begin{myproof}
+  \begin{itemize}
+    \item 同型なら普遍性:
+    $M=\oplus_i M_i$として議論してよい。
+    $\alpha = \sum_{i\in I} \alpha_i \pi_i$とすればよい。
+    \item 普遍性なら同型:
+仮定より、図式
+\begin{center}
+  \begin{tikzcd}
+    M_i \ar[rr, "\mu_i"] \ar[rd, "\nu_i", swap]& & M \ar[ld, "\alpha", dotted]\\
+    &\bigoplus_i M_i &
+  \end{tikzcd}
+  ,\quad
+  \begin{tikzcd}
+    M_i \ar[rr, "\nu_i"] \ar[rd, swap, "\mu_i"] & & \bigoplus_i M_i \ar[ld, "\sum_i \mu_i\pi_i"] \\
+     & M &
+  \end{tikzcd}
+\end{center}
+が得られる。これを2方向でくっつけ、$\id$もそのくっつけた図式を満たすことから、
+一意性より$\alpha(\sum_i \mu_i \pi_i) = \id_{\bigoplus_i M_i}$と
+$(\sum_i \mu_i \pi_i)\alpha = \id_M$が言える。
+  \end{itemize}
+\end{myproof}
+
+直和は驚くべきことにこの図式の逆向きになる。「
+$M \simeq \prod_{i\in I}M_i$ となる。 $\iff$
+\begin{align}
+  \Exists{\lambda_i \colon M \to M_i}
+  \Forall{N}
+  \Forall{\beta_i \colon N \to M_i}
+  \Exists{! \beta\colon N \to M}
+\end{align}
+\begin{center}
+  \begin{tikzcd}
+    M_i & & M \ar[ll, "\lambda_i"] \\
+    & N \ar[lu, "\beta_i"] \ar[ru, "\beta", dotted, swap]&
+  \end{tikzcd}
+\end{center}
+となる。」
+「projectionっぽいのがある」という感じがする。
+\begin{myproof}
+  \begin{itemize}
+    \item 同型なら普遍性:$M=\prod_{i\in I}M_i$としてよい。
+    $\beta(x) = (\beta_i(x))_{i\in I}$とすればよい。
+    \item 普遍性なら同型:
+    さっきみたいに図式を描いてつなげる。
+  \end{itemize}
+\end{myproof}
+結局普遍性で見たときなんで矢印が逆になってるんだろうと考えたが、
+図式を見てみると、
+\begin{center}
+  \begin{tikzcd}
+    M_i \ar[rr, "\mu_i"] \ar[rd, "\alpha_i", swap] & & \bigoplus_{i\in I} M_i \ar[ld, dotted, "\sum_i \alpha_i \pi_i"] \\
+    & N &
+  \end{tikzcd}
+  ,\quad
+  \begin{tikzcd}
+    M_i & & \prod_{i\in I}M_i \ar[ll, "\lambda_i"] \\
+    & N \ar[lu, "\beta_i"] \ar[ru, dotted, "(\beta_i(\bullet))_{i\in I}",swap] &
+  \end{tikzcd}
+\end{center}
+となり、結局有限和で書く羽目になるかどうかという点にかかっているような気がする。左の直和に関しては一度入射で入れてしまっているので、
+射影で取り出して和にせざるを得ないが、直積のほうは最後に
+射影するのでなんでもできる感じがある。
+
+ベクトル空間の環バージョンみたいなものを定義する。
+環$R$と、ただの集合$X$について、$x\in X$について$R_x = R$とおく。$\bigoplus_{x \in X}R_x$と同型な$R$加群のことを、
+$X$を基底に持つ自由加群という。すると、「任意の$R$加群$M$は、
+$R$自由加群(有限基底とは限らない)の剰余加群となる。
+さらに、有限生成$R$加群は、$N$が存在して$R^{\ovparen{N}}$の剰余加群となる。」
+\begin{myproof}
+  $X$を$\Lmod{R}M$の生成元とする。$\varphi\colon \bigoplus_{x\in X}R_x \to \Lmod{R}{M}$を、
+  \begin{align}
+    \varphi\colon (r_x)_{x\in X} \mapsto r_x x
+  \end{align}
+  と定義すると、これは全射準同型となる。よって、準同型定理により
+  \begin{align}
+    \bigoplus_{x\in X}R_x/ \ker \varphi = \Lmod{R}M
+  \end{align}
+  となる。前半は示された。後半は、$X$が有限集合としてとれることになるが、
+  このとき$\bigoplus_{x\in X}R_x \simeq R\ovparen{\# X}$となるので
+  示された。
+\end{myproof}
+
+あとは極大部分加群、極大左イデアル、極大右イデアルの話をしておしまい。
+
+\subsection{アルティン加群とネーター加群}
+\label{sub:アルティン加群とネーター加群}
+有限集合だと、上昇列が安定するということに着目して、これを加群でも考えてみる。ネーター加群とアルティン加群を定義する。
+
+ネーター加群、アルティン加群の基本的な性質を調べる。
+ネーター加群であることを剰余加群を使って調べることができる。
+「$R$加群$M$と、その部分加群$N$について、$M$がネーター加群である
+$\iff$ $N$と$M/N$がネーター加群である」
+\begin{myproof}
+  \begin{itemize}
+    \item $\Rightarrow$:
+    $N$がネーター加群なのは、これがネーター加群でなかったら
+    無限に続く上昇列が作れて、これは$M$の上昇列でもあることから従う。
+    上昇列$(L_i/N)_i$を考える。このとき、
+    $N \subset L_1 \subset L_2 \subset \dots$となる。
+    この上昇列は停止するので、$(L_i/N)_i$も停止する。
+    \item $\Leftarrow$:
+    $M$の上昇列$(L_i)_i$を考える。
+    次の3つを使うことになる。
+    \begin{itemize}
+      \item $(A+N)/N = (B+N)/N \implies A+N = B+N$:
+      $a\in A$に対してうまい$b\in B$を見つけられそうだしそれでもいいと言えばいいのだけれど。$a + n\in A+N$とする。
+      $a + N \in (A+N)/N = (B+N)/N$であり、$a + N= b + N$となる$b$が存在する。$a+n \in a+ N = b+N$なので、$a+n = b+n'$となる$n' \in N$があり、
+      $a+n = b+n' \in B+N$である。よって、$A+N \subset B+N$である。
+      対称性より逆も成立。
+      \item $(L_i+N)_i$は停止する:
+      $((L_i+N)/N)_i$は$M/N$の上昇列なので停止する。
+      先の「$(A+N)/N = (B+N)/N \implies A+N = B+N$」より、
+      これは$(L_i+N)_i$の停止がわかる。
+      \item $(L_i \cap N)_i$の停止:
+      $M$の上昇列なのであきらか。
+    \end{itemize}
+    $(L_i+N)_i$も$(L_i\cap N)_i$も$M$以降停止しているとする。
+    $i\ge M$とする。
+    \begin{align}
+      L_{i+1}
+      &=
+      L_{i+1} \cap (L_{i+1} + N)\\
+      &=
+      L_{i+1}\cap (L_i + N)\\
+      &\desceq{$L_i \le L_{i+1}$,modular law}
+      L_i + (L_{i+1} \cap N)\\
+      &=
+      L_i + (L_i \cap N)\\
+      &=
+      L_i.
+    \end{align}
+  \end{itemize}
+  よって、$M$以降$(L_i)_i$は停止し、$M$はネーター加群である。
+\end{myproof}
+アルティン加群についても同様に証明できる。
+ここから、「
+$\bigoplus_{i=1}^n M_i$がネーター加群 $\iff$ すべての$i$について$(M_i)_i$がネーター加群」と「
+$\bigoplus_{i=1}^n M_i$がアルティン加群 $\iff$ すべての$i$について$(M_i)_i$がアルティン加群」が得られる。
+
+極大条件がネーター性と等価であり、極小条件がアルティン性と等価であることを言う。極大条件は、どの空でないクラスも極大元を持つことで、極大元はそれよりも大きい元がないような元のことだった。
+
+ネーター加群については、さらに有限生成であることでも特徴付けられる。
+\begin{myproof}
+  \begin{itemize}
+    \item ネーターなら有限生成:ネーター加群$M$から有限生成な部分集合すべてを選んだクラス$\cal A$を作り、そこから仮定より極大元$N$が選べる。このとき、$M\subset N$が示せ、$M=N$となる。
+    \item 有限生成ならネーター:上昇列を作って、その列のunionをとると有限生成性より、有限個の生成元が取れる。それらは列のどこかに入っているはずなので、十分大きいところでは生成元が全部入っていて、そこ以降列は停止する。
+  \end{itemize}
+\end{myproof}
+
+
+零でないネーター加群については、その部分加群全体のクラスに極大条件を適用することで、「零でないネーター加群には、極大部分加群が存在する」が導ける。
+零でないアルティン加群についても同様に、「零でないアルティン加群には、極小部分加群が存在する」が導ける。
+
+ベクトル空間での次元のようなものを加群にも入れる。
+
+$R$加群$M$の、
+\begin{itemize}
+  \item 下降列
+  \begin{align}
+    M = M_0 \ge M_1 \ge \dots \ge M_n = \zeroset
+  \end{align}
+  \item はじまりが$M$で、
+  \item おわりが$\zeroset$で、
+  \item となりあう部分加群の剰余加群が単純加群である
+\end{itemize}
+ようなものを組成列といい、この$n$を組成列の長さといい、
+各剰余加群を組成因子という。
+
+組成列を持つ加群の特徴付けをする。
+「$R$加群$M$について、$M$が組成列を持つ $\iff$ $M$はネーターでアルティン」
+\begin{myproof}
+  \begin{itemize}
+    \item 組成列ならネーター・アルティン:
+    (剰余をとることで1個短い組成列を作って、帰納的に示す。)
+    $M$が組成列
+    \begin{align}
+      M = M_0 \ge M_1 \ge \dots \ge M_n = \zeroset
+    \end{align}
+    を持つとする。$n=1$のときは、組成列が$M\ge \zeroset$となり、
+    $M$が単純加群だと分かるので、$M$はネーター・アルティンである。
+    $n>1$とし、帰納法で示す。
+    \begin{align}
+      \frac{M_{i-1}/M_{n-1}}{M_i/M_{n-1}} \simeq M_{i-1}/M_i
+    \end{align}
+    となるので、
+    \begin{align}
+      M/M_{n-1} = M_{0}/M_{n-1} \ge M_1/M_{n-1} \ge \dots
+      \ge M_{n-2}/M_{n-1} \ge M_{n-1}/M_{n-1} = \zeroset
+    \end{align}
+    という組成列が得られ、この長さは$n-1$である。帰納法の仮定より、
+    $M/M_{n-1}$はネーター・アルティン的である。
+    $M_{n-1} \simeq M_{n-1}/\zeroset = M_{n-1}/M_n$なので、
+    $M_{n-1}$は単純加群であり、ネーター・アルティン的である。よって、
+    $M$はネーター・アルティン的である。
+    \item ネーター・アルティンなら組成列:
+    $M$にネーター性を使って、極大部分加群を作る。
+    この極大部分加群はネーター加群の部分加群なのでまたネーター加群である。
+    この操作を、$\zeroset$が出ない限り繰替えすことにより、$M$からはじまる真の下降列
+    \begin{align}
+      M = M_0 > M_1 > M_2 > \dots
+    \end{align}
+    が得られる。さらに、極大部分加群をとっていったので、
+    となりあう2項の剰余加群は単純加群である。さらに、
+    $M$はアルティン環なので、この列はどこかで停止するが、
+    $\zeroset$が出ない限り繰替えすことにしたので、$\zeroset$で終わる列になる。
+  \end{itemize}
+\end{myproof}
+
+ある加群がネーター、アルティンになるための必要十分条件があったので、それを使って、「$R$加群$M$、その部分加群$N$について、$M$が組成列を持つ $\iff$ $M/N,N$が組成列を持つ」と言える。
+
+$R$加群$M$に組成列
+\begin{align}
+  M = M_0 \ge M_1 \ge \dots \ge M_{n-1} \ge M_n = \zeroset
+\end{align}
+があるとする。さらに、$\Lmod{R}N$を$\Lmod{R}M$の部分加群とする。このとき、
+\begin{enumerate}[label=(列\arabic*)]
+  \item
+  \begin{align}
+    M/N = (M_0+N)/N \ge (M_1+N)/N \ge \dots \ge (M_{n-1}+N)/N \ge (M_n+N)/N = \zeroset
+  \end{align}
+  ($M_\bullet \rightsquigarrow (M_\bullet + N)/N$)
+  \item
+  \begin{align}
+    (M\cap N) = (M_0 \cap N)  \ge (M_1 \cap N) \ge \dots \ge (M_{n-1} \cap N) \ge (M_n \cap N) = \zeroset
+  \end{align}
+  ($M_\bullet \rightsquigarrow M_\bullet \cap N$)
+\end{enumerate}
+は、となりあうもの同士の右は左と一致するか、極大部分加群になっている。
+\begin{myproof}
+  \begin{enumerate}[label=(列\arabic*)]
+    \item
+    となりあうもの同士わって、
+    $\displaystyle \frac{(M_i + N)/N}{(M_{i+1} + N)/N} \simeq \frac{M_i + N}{M_{i+1}+N}$
+    が$\zeroset$になるか、あるいは単純加群になっていることを示せばよい。
+    $\pi\colon  M_i/M_{i+1} \to \frac{M_i + N}{M_{i+1}+N}$を、
+    \begin{align}
+      \pi\colon x +  M_{i+1} \mapsto x + (M_{i+1}+N)
+    \end{align}
+    と定義できる。これは全射準同型になっている。よって、
+    $\frac{M_i+N}{M_{i+1}+N} \simeq (M_i/M_{i+1})/\ker \pi$となっている。
+    つまり、$\frac{M_i+N}{M_{i+1}+N}$が、単純加群であるところの
+    $M_i/M_{i+1}$の剰余加群であり、単純加群である$M_i/M_{i+1}$そのものか、あるいは$\zeroset$である。
+    \item
+    となりあうもの同士わって、
+    $\displaystyle \frac{M_i \cap N}{M_{i+1}\cap N}$
+    が$\zeroset$であるか単純加群であることを示せばよい。
+    仮にこれが$\zeroset$でないとしておき、単純加群であることを示す。
+    $\zeroset$でないので、$x \in (M_i \cap N)\setminus (M_{i+1}\cap N)$
+    なる$x$が存在する。
+    \easypicture{1427567453557.png}
+    $x\in M_i\setminus M_{i+1}$なので、$Rx + M_{i+1}$は$M_{i+1}$より真に大きい部分加群である。 $M_i/M_{i+1}$は単純加群なので、先の定理より$M_{i+1}$は
+    $M_i$の極大部分加群であるから\footnote{極大よりすこしでも大きくなったら全体になってしまう。}、$Rx + M_{i+1} = M_i$となる。
+    \begin{align}
+      \frac{M_i \cap N}{M_{i+1} \cap N}
+      &\desceq{さっきの極大}
+      \frac{(Rx + M_{i+1})\cap N}{M_{i+1}\cap N}\\
+      &=
+      \frac{(N \cap M_{i+1})+ Rx}{M_{i+1}\cap N}\\
+      &
+      \fbox{$x\in N$なので $Rx \subset N$となり、モジュラー則}\\
+      &=
+      \frac{Rx}{(N\cap M_{i+1})\cap Rx}\\
+      &=
+      \frac{Rx}{M_{i+1}\cap Rx}\\
+      &
+      \fbox{$Rx \subset N$なので、$Rx\cap N = Rx$}\\
+      &\desceq{つぶすやつの同型}
+      \frac{Rx + M_{i+1}}{M_{i+1}}\\
+      &\desceq{さっきの極大}
+      \frac{M_i}{M_{i+1}}.
+    \end{align}
+    よって、$(M_i\cap N)\(M_{i+1}\cap N)$は単純加群
+    $M_i/M_{i+1}$に同型であることがわかったので、示された。
+  \end{enumerate}
+\end{myproof}
+
+あんまり関係ないと思うのだが、先のこれをヒントにJordan-Hoelderが示せる。
+「$R$加群$M$の組成列の長さは一意であり、その組成因子も並べ替えを除いて一意である。」
+\begin{myproof}
+  $M$の組成列のうち、長さが最小になるものがあるはずなので、そのうちの1つを選んで、
+  \begin{align}
+    M = M_0 \ge M_1 \ge \dots \ge M_{n-1} \ge M_n = \zeroset
+  \end{align}
+  とする。$M$の組成列を別に(同じかもしれないけど)考え、
+  \begin{align}
+    M = L_0 \ge L_1 \ge \dots \ge L_{m-1} \ge L_m = \zeroset
+  \end{align}
+  とする。このとき、$n=m$であることと、その上で組成因子が一致することを示す。
+  $n=1$のときには、はじめの組成列は$M = M_0 \ge M_1 = \zeroset$となっており、$M$は単純加群である。よって、$M$の組成列の長さは1にならざるを得ない。さらに組成因子は$M$そのものである。これで$n=1$は証明された。
+
+  $n>1$について帰納的に示す。
+  はじめの組成列の$M_{n-1}$を考えると、これは単純加群になっている。
+  小さい組成列を作るため、第2の組成列を$M_{n-1}$で割ってみると、
+  \begin{align}
+    M/M_{n-1}
+    =
+     \frac{L_0 + M_{n-1}}{M_{n-1}}
+     \ge
+     \frac{L_1 + M_{n-1}}{M_{n-1}}
+     \ge
+     \dots
+     \ge
+     \frac{L_{m-1} + M_{n-1}}{M_{n-1}}
+     \ge
+     \frac{L_{m} + M_{n-1}}{M_{n-1}}
+     =
+     \zeroset
+     \label{第2の組成列を割ったもの}
+  \end{align}
+  という(組成列かわからない)列が得られる。
+  組成列かどうかを調べるために、隣同士の剰余
+  \begin{align}
+    \frac{(L_{i-1}+M_{n-1})/M_{n-1}}{(L_{i}+M_{n-1})/M_{n-1}}
+    \simeq
+    \frac{L_{i-1} + M_{n-1}}{L_{i} + M_{n-1}}
+  \end{align}
+  の様子を調べる。
+  このとき、$M_{n-1}$と$L_\bullet$との関係を知りたい。
+  $M_{n-1} \subset L_0 = M$であり、$M_{n-1}\not\subset L_m = \zeroset$なので、
+  「$M_{n-1}\subset L_{t-1}$であり、$M_{n-1}\not\subset L_{t}$」
+  という$t \in \set{1,\dots,m}$がただ1つ存在する。
+  $M_{n-1}\not\subset L_t$なので、$x\in M_{n-1}\setminus L_t$
+  が存在する。さらに、$x\notin L_t$なので、$(Rx)\cap L_{t} = \zeroset$
+  である。さらに、$x\in M_{n-1}$なので、$Rx + L_t$は$L_{t-1}$の部分加群である。さらに、$L_{t-1}/L_t$が単純加群なので、$L_t$は$L_{t-1}$の
+  極大部分加群であり、$L_{t-1} = Rx + L_t$である。ここから、
+  $M_{n-1} = Rx$である。よって、
+  $L_0,\dots,L_{t-1}$は$Rx$を含み、$L_t,\dots,L_m$は$Rx$と互いに素である。
+  これで、$L_\bullet$と$M_{n-1} = Rx$との関係は、次の3つに分類できる。
+  \begin{itemize}
+    \item $i=0,\dots,t-1$のとき:
+    \begin{align}
+      Rx = M_{n-1}\subset L_{t-1} \subset L_{t-2} \subset \dots \subset L_0 = M
+    \end{align}
+    となる。このとき、
+    \begin{align}
+      \frac{L_{i-1} + M_{n-1}}{L_i + M_{n-1}} = \frac{L_{i-1}}{L_i}
+    \end{align}
+    となり、単純加群である。
+    \item $i=t$のとき:$L_{t-1} = Rx + L_t = M_{n-1} + L_t$となっている。
+    よって、
+    \begin{align}
+      \frac{L_{t-1}+M_{n-1}}{L_t + M_{n-1}} =
+      \frac{L_t + M_{n-1}}{L_t + M_{n-1}}
+      =
+      \zeroset
+    \end{align}
+    である。
+    \item $i=t+i,\dots,m$のとき:
+    $L_i$と$Rx = M_{n-1}$は互いに素なので、
+    $L_i + M_{n-1} = L_i \oplus M_{n-1}$であり、
+    \begin{align}
+      \frac{L_{i-1} + M_{n-1}}{L_i + M_{n-1}}
+      =
+      \frac{L_{i-1}\oplus M_{n-1}}{L_i \oplus M_{n-1}}
+      =
+      \frac{(L_{i-1}\oplus M_{n-1})/M_{n-1}}{(L_i \oplus M_{n-1})/M_{n-1}}
+      =
+      \frac{L_{i-1}}{L_i}.
+    \end{align}
+    となり、単純加群である。
+  \end{itemize}
+    よって、先の第2の組成列を$M_{n-1}$で割ったもの(\ref{第2の組成列を割ったもの})から$\displaystyle \frac{L_{t-1}+M_{n-1}}{L_t + M_{n-1}}$を除けば、これは$M/M_{n-1}$の長さ$m-1$の組成列になる。
+    ところで、第1の組成列を$M_{n-1}$で割った
+    \begin{align}
+      M/M_{n-1} = M_0/M_{n-1} \ge M_1/M_{n-1} \ge \dots
+      \ge M_{n-2}/M_{n-1} \ge M_{n-1}/M_{n-1} = \zeroset
+      \label{第1の組成列を割って作った組成列}
+    \end{align}
+    も$M/M_{n-1}$の長さ$n-1$の組成列になる。帰納法の仮定より、
+    $n-1 = m-1$であり、$m=n$となる。これで組成列の長さの一意性は示せた。
+    以降、$m$は使わず$n$と書く。
+
+    次に、組成因子の一意性を示す。
+    帰納法の仮定より、
+    「第2の組成列を$M_{n-1}$で割ったもの(\ref{第2の組成列を割ったもの})から$\displaystyle \frac{L_{t-1}+M_{n-1}}{L_t + M_{n-1}}$を除いて作った組成列」と、「第1の組成列を$M_{n-1}$で割って作った組成列(\ref{第1の組成列を割って作った組成列})」の組成因子は一致するので、先の隣合うもの同士の剰余の議論を踏まえ、$n-1$個の集合の同型の意味での等式
+    \begin{align}
+      \set{L_0/L_1,\dots,\nashi{L_{t-1}/L_t},\dots,L_{n-1}/L_n} = \set{M_0/M_1,\dots,M_{n-2}/M_{n-1}}
+    \end{align}
+    が得られる。左辺は第2の組成列の組成因子のうち$n-1$個であり、
+    右辺は第1の組成列の組成因子のうち$n-1$個である。
+    これで$n-1$個分については同じであることが言えた。残りは、
+    第2の組成列の組成因子からは$L_{t-1}/L_t$、
+    第1の組成列からは$M_{n-1}/M_n = M_{n-1}/\zeroset = M_{n-1}$
+    がある。この相当は先に、$L_{t-1}/L_t = Rx = M_{n-1}$として示しておいた。よって、$n$個分の組成因子が一致する。
+\end{myproof}
+
+
+
+\begin{enumerate}[label=(問題\arabic*)]
+  \item
+\end{enumerate}
+
+
+
+
+\end{document}
