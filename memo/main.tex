@@ -1017,11 +1017,242 @@ $R$加群$M$に組成列
     がある。この相当は先に、$L_{t-1}/L_t = Rx = M_{n-1}$として示しておいた。よって、$n$個分の組成因子が一致する。
 \end{myproof}
 
+組成列のながさについて、以下の演算ができる。
+「$R$加群$M$とその部分加群$N$について、$c(M) = c(N) + c(M/N)$」
+「$R$加群$M_1,\dots,M_n$について、$c(\bigoplus_{i=1}^n M_i) = \sum_{i=1}^n c(M_i)$」がなる。組成列を$N$のところで切ればできそう。
 
+
+\subsection{可換図式と完全列}
+\label{sub:可換図式と完全列}
+可換図式、余核を定義する。$\varphi\colon X \to Y$として、
+$\Cok(\varphi) = Y/\varphi(X)$とする。
+この定義から、$\Cok(\varphi) = \zeroset \iff $ $\varphi$は全射となる。
+
+完全列を定義する。完全列の性質をいくらか見る。
+\begin{itemize}
+  \item
+\begin{align}
+  \dots \to X_{n-1} \xrightarrow{\varphi_{n-1}} X_n \xrightarrow{\varphi_n} X_{n+1} \to \dots
+\end{align}
+は完全列 $\iff$
+\begin{align}
+  \Forall{n} \zeroset \to \varphi_{n-1}(X_{n-1}) \xrightarrow{i} X_n \xrightarrow{\varphi_n} \varphi_n(X_n) \to \zeroset は完全列
+\end{align}
+\begin{myproof}
+後ろのやつは、$\zeroset \to \varphi_{n-1}(X_{n-1}) \xrightarrow{i} X_n$と
+$X_n \xrightarrow{\varphi_n} \varphi_n(X_n) \to \zeroset$が完全列であることは自明。真ん中は$\ker(\varphi_n) = i(\varphi_{n-1}(X_{n-1}) = \varphi_{n-1}(X_{n-1})$なので、はじめの列が完全であることと等価になる。
+\end{myproof}
+\item $\varphi\colon X\to Y$について、
+\begin{align}
+  0 \xrightarrow{} \ker \varphi \xrightarrow{\iota} X
+  \xrightarrow{\varphi} Y \xrightarrow{\pi} \cok{\varphi}
+ \to 0
+ \end{align}
+ は完全列になる。
+ \item
+ $\varphi\colon X\to Y$が単射$\iff$ $0 \to X \xrightarrow{\varphi} Y$は完全
+ \begin{myproof}
+   \begin{align}
+     \varphi が単射
+     &\iff
+     \ker \varphi = \zeroset \\
+     &\desciff{上の完全列}
+     0 \to X \xrightarrow{\varphi}  Y \xrightarrow{\pi} \cok \varphi \to 0 は完全 \\
+     &\desciff{右側はいつもなりたつ}
+     0\to X \xrightarrow{\varphi} Y.
+   \end{align}
+ \end{myproof}
+ \item $\varphi\colon X\to Y$が全射 $\iff$ $X\xrightarrow{\varphi} Y \to 0$が完全。証明は同様。
+ \item 完全列$0 \to X \xrightarrow{\varphi} Y \xrightarrow{\psi} Z \to 0$があるとき、
+   \begin{center}
+     \begin{tikzcd}
+       X \ar[rr, "\varphi"] \ar[rd, "\alpha", dotted, swap, hook, two heads]& & Y \\
+       & \ker \psi \ar[ru , "\iota", swap]&
+     \end{tikzcd}
+   \end{center}
+   となる同型$\alpha\colon X \to \ker \psi$がある。
+   実際、$\alpha = \varphi$とすれば、$\alpha(x) = \varphi(x) \in \ker \psi$であってwell-definedであることに$\Image \varphi \subset \ker \psi$であることを使う。全射であることに、$\ker \psi \subset \Image \varphi$であることを使う。単射であることに、$0= \ker \varphi$を使う。
+   \item 完全列$0 \to X \xrightarrow{\varphi} Y \xrightarrow{\psi} Z \to 0$があるとき、
+   \begin{center}
+     \begin{tikzcd}
+       Y \ar[rr, "\psi"]  \ar[rd, "\pi", swap]& & Z \\
+       & \cok(\varphi) \ar[ru, "\beta", two heads, hook, dotted, swap]&
+     \end{tikzcd}
+   \end{center}
+   となる同型$\beta\colon \cok(\varphi) \to Z$が存在する。
+   $\beta\colon (y + \Image \varphi) \to \psi(y)$とする。
+   $\Image \varphi \subset \ker \psi$からwell-definednessが従う。
+   $\ker psi \subset \Image \varphi$から単射が従う。
+   $\Image \psi = Z$から全射が従う。
+\end{itemize}
+
+
+「完全列$0 \to X \xrightarrow{\varphi} Y \xrightarrow{\psi} Z$があって、
+\easypicture{1427712279220.png}
+となっているとき、上のような$\alpha'$がただ1つ存在する。」
+\begin{myproof}
+  \easypicture{1427712426896.png}
+  図式をまわる。
+  \begin{enumerate}[label=\MARU{\arabic*}]
+    \item $m\in M$として$\alpha'(m)$を構成しよう。
+    \item $m$を$\alpha$で飛ばす。
+    \item 右の三角の可換性より、$\alpha(m)$を$\psi$で飛ばせば0となり、
+    $\psi\alpha(m) = 0$となる。
+    \item $\psi\alpha(m)=0$となるので、完全性より$\varphi(x)=\alpha(m)$となる$x$が存在し、さらに完全性よりこれは一意である。
+    \item この一意な$x$を$\alpha'(m)$とすればよい(そうするしかない)。
+  \end{enumerate}
+\end{myproof}
+
+対として、以下が示せる。
+「完全列$X \xrightarrow{\varphi} Y \xrightarrow{\psi} Z \to 0$があって、
+\easypicture{1427712882207.png}
+となっているとき、上のような$\beta'$がただ1つ存在する。」
+\begin{myproof}
+  図式をまわる。
+  \easypicture{1427712998050.png}
+  \begin{enumerate}[label=\MARU{\arabic*}]
+    \item $z\in Z$とする。
+    \item 完全性より$\psi$の全射が出て、$\psi(y)=z$となる$y$が
+    $\ker \psi$分のあいまいさで存在する。
+    \item $\beta$で$y$を飛ばす。
+    \item $\beta'(z)=\beta(y)$と定めればよい。
+    このとき、well-definednessを示さなければならない。
+  \end{enumerate}
+  また図式をまわる。$y$に$\ker \psi$のあいまいさがあるので、
+  $y'\in \ker \psi$として、$\beta(y)=0$であることを示せばよい。
+  \easypicture{1427713386953.png}
+  \begin{enumerate}[label=\MARU{\arabic*}]
+    \item $y' \in \ker \psi$とする。
+    \item $y' \in \ker \psi$なので、$\psi$で飛ばして0になる。
+    \item $y' \in \ker \psi$なので、完全性より$\varphi(x)=y'$となる
+    $x$が存在する。
+    \item 左の三角の可換性より、$y'$を$\beta$で飛ばせば$0$となる。
+  \end{enumerate}
+  これで示され、$y$の$\ker \psi$のあいまいさは$\beta'$の定義に影響しないことがわかった。
+\end{myproof}
+
+\subsection{準同型のなす加法群}
+\label{sub:準同型のなす加法群}
+$R$加群の準同型$X\to Y$全体は加法群になって、$\Hom_R(X,Y)$と書く。
+
+練習問題2-11を解く。
+\begin{enumerate}[label=(\arabic*)]
+  \item $f\in \Hom_\Z(\Q,\Z)$とする。
+  $f(1)=n \neq 0$とする。このとき、$f(1/n)=1$となる。
+  さらにこのとき、$2f(1/2n)=1$となり、$0<2f(1/2n)=1 < 2$となり、
+  $0<f(1/2n)<1$となる。$f(1/2n)\in \Z$だが、これは矛盾である。よって、
+  $n=0$であり、$f(1)=0$となる。よって、$f=0$である。
+  \item $f\in \Hom_\Z(\Z/(n),\Z)$とする。
+  $f([1])=m \neq 0$とする。このとき、
+  \begin{align}
+    0=f([0]) = f([n]) = nf([1]) = nm.
+  \end{align}
+  矛盾である。
+\end{enumerate}
+練習問題おわり。
+
+さらに、これらの加法群の準同型を、$R$準同型から作ることができる。
+\begin{itemize}
+  \item 終域変更:$R$準同型$\alpha\colon Y\to Y'$から加法群の準同型を作る。この準同型を$\Hom_R(X,\ub{\alpha}_{Y \to Y'})$とよび、$f \mapsto \alpha f$と定義される。
+  \item 始域変更:$R$準同型$\beta\colon X' \to X$から加法群の準同型を作る。この準同型を$\Hom_R(\ub{\beta}_{X'\to X},Y)$とよび、$f\mapsto f\beta$と定義される。
+\end{itemize}
+\easypicture{1427730968553.png}
+関数合成について、「$\Hom(X,\alpha' \alpha)=\Hom(X,\alpha')\Hom(X,\alpha)$」
+「$\Hom(\beta'\beta, Y) = \Hom(\beta,Y)\Hom(\beta',Y)$」が示せる。
+\begin{myproof}
+  \begin{align}
+    \Hom(X,\alpha'\alpha)f
+    =
+    (\alpha'\alpha)f
+    =
+    \alpha' \circ ( \Hom(X,\alpha)f)
+    =
+    (\Hom(X,\alpha')\Hom(X,\alpha))(f)
+  \end{align}
+  よって、$\Hom(X,\alpha'\alpha)=\Hom(X,\alpha')\Hom(X,\alpha)$となる。順序が保存される。
+  \begin{align}
+    \Hom(\beta'\beta,Y)f
+    =
+    f(\beta'\beta)
+    =
+    (\Hom(\beta',Y)f)\circ \beta
+    =
+    (\Hom(\beta,Y)\Hom(\beta',Y))(f)
+  \end{align}
+  よって、$\Hom(\beta'\beta,Y)=\Hom(\beta,Y)\Hom(\beta',Y)$となる。順序が逆転する。
+\end{myproof}
+
+両側加群の話をする。
+
+今迄$\Hom_R(\Lmod{R}X,\Lmod{R}Y)$を考えてきたが、$X,Y$をさらに右側加群にすると、この加法群にさらに演算が入る。
+$\Lmod{R}X$がさらに右側加群で、$\Lmod{R}\Rmod{S}X$であるとすると、
+$\Hom_R(\Lmod{R}\Rmod{S}X,\Lmod{R}Y)$には左からの$S$の作用
+\begin{align}
+  \ub{s}_{\in S}\cdot \ub{f}_{\in \Hom_R(\Lmod{R}\Rmod{S}X,\Lmod{R}Y)} \mapsto [\ub{x}_{\in X}\mapsto f(xs)] = f\circ (\cdot s)
+\end{align}
+が定まる。実際、$(\cdot s's) = (\cdot s')\circ (\cdot s)$となるから。
+これを全部逆にして、$\Lmod{S}\Rmod{R}X$と$\Rmod{R}Y$とすると、
+$\Hom_R(\Lmod{S}\Rmod{R}X,\Rmod{R}Y)$には右からの$S$の作用が同様に定まる。これは、$(s's\cdot) = (s'\cdot)\circ (s\cdot)$となるから。
+
+今度は終域の$Y$のほうをいじってみる。$\Lmod{R}Y$がさらに右側加群で、
+$\Lmod{R}\Rmod{T}Y$であるとすると、
+$\Hom_R(\Lmod{R}X,\Lmod{R}\Rmod{T}Y)$には右からの$T$の作用
+\begin{align}
+  \ub{f}_{\in \Hom_R(\Lmod{R}X,\Lmod{R}\Rmod{T}Y)} \cdot \ub{t}_{\in T}
+  \mapsto
+  [x\mapsto f(x)t] = (\cdot t)\circ f
+\end{align}
+が定まる。実際、$(\cdot t' t) = (\cdot t)\circ (\cdot t')$だからである。
+これを全部逆にして、$\Rmod{R}X$と$\Lmod{T}\Rmod{R}Y$とすると、
+$\Hom_R(\Rmod{R}X,\Lmod{T}\Rmod{R}Y)$には左からの$T$の作用が
+同様に定まる。これは、$(\cdot t't) = (\cdot t)\circ (\cdot t')$となるから。
+
+$\Hom_R(\Lmod{R}\Rmod{S}X,\Lmod{R}Y)$には$S$の左からの作用が入るから、
+$\alpha\colon Y \to Y'$として、$\Hom_R(X,\alpha)$は加法群の準同型である上に、$S$準同型になる。$\Hom_R(\Lmod{R}X,\Lmod{R}\Rmod{T}Y)$には
+$T$の右からの作用が入るから、$\beta\colon X\to X'$として、$\Hom_R(\beta,Y)$は加法群の準同型である上に、$T$準同型になる。
+$R$が右側からでも同様。
+
+$\Hom$の同型についていろいろ調べていく。
+$\Hom_R(\Lmod{R}\Rmod{R}R, \Lmod{R}X) \simeq \Lmod{R}X$という
+$R$左加群の同型がつく。
+\begin{myproof}
+  $\Hom_R(\Lmod{R}\Rmod{R}R,\Lmod{R}X) \to \Lmod{R}X$は
+  1の代入、$\Lmod{R}X \to \Hom_R(\Lmod{R}\Rmod{R} R, \Lmod{R}X)$は
+  $x\mapsto [r\mapsto rx]$とすれば同型になる。
+\end{myproof}
+
+$\Hom_R(\bigoplus_{i\in I}X_i, Y) \simeq \prod_{i\in I}\Hom_R(X_i,Y)$
+がつく。
+\begin{myproof}
+  $\Phi \colon \Hom_R(\bigoplus_{i\in I}X_i, Y) \to \prod_{i\in I}\Hom_R(X_i,Y)$を、$f\mapsto (f\nu_i)_{i\in I}$とする。
+  終域から元をとって、対応する始域の元を考える。$(\alpha_i)_{i\in I} \in \prod_{i\in I}\Hom_R(X_i,Y)$とする。これで、
+  \begin{center}
+    \begin{tikzcd}
+      X_i\ar[rr, "\nu_i"] \ar[rd, swap, "\alpha_i"] & & \bigoplus_{i\in I}X_i \ar[ld, dotted, "f"]\\
+      & Y &
+    \end{tikzcd}
+  \end{center}
+  となる$f$が一意に存在するので、全射でかつ単射になる。
+\end{myproof}
+
+$\Hom_R(X,\prod_{i\in I}Y_i) \simeq \prod_{i\in I}\Hom_R(X,Y_i)$がつく。
+\begin{myproof}
+$\Phi\colon \Hom_R(X,\prod_{i\in I}Y_i) \to \prod_{i\in I}\Hom_R(X,Y_i)$を、$f\mapsto (\pi_i f)_{i\in I}$とする。
+終域から元をとり、始域を考える。$(\beta_i)_{i\in I}\in \prod_{i\in I}\Hom_R(X,Y_i)$とする。これで、
+\begin{center}
+  \begin{tikzcd}
+    Y_i & & \prod_{i\in I}Y_i \ar[ll, "\pi_i"]\\
+    & X \ar[ul, "\beta_i"] \ar[ur, dotted, "g", swap]&
+  \end{tikzcd}
+\end{center}
+となる$g$が一意に存在するので、全射でかつ単射になる。
+\end{myproof}
 
 \begin{enumerate}[label=(問題\arabic*)]
   \item
+
 \end{enumerate}
+
 
 
 
