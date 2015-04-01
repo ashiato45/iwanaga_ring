@@ -1248,10 +1248,232 @@ $\Phi\colon \Hom_R(X,\prod_{i\in I}Y_i) \to \prod_{i\in I}\Hom_R(X,Y_i)$を、$f
 となる$g$が一意に存在するので、全射でかつ単射になる。
 \end{myproof}
 
+さらに、「$X$が有限生成$R$加群のときには、
+\begin{align}
+  \Hom_R(X,\bigoplus_{j\in J}Y_j)\simeq \bigoplus_{j\in J}\Hom_R(X,Y_j)
+\end{align}
+の同型がつく。」
+\begin{myproof}
+  \begin{align}
+    \Theta\colon \Hom_R(X,\bigoplus_{j\in J}Y_j)
+    \to
+    \Hom_R(X,\prod_{j\in J}Y_j)
+    \to
+    \prod_{j\in J}\Hom_R(X,Y_j)
+  \end{align}
+  を考える。そうすると、有限生成なことから、像が$\bigoplus_{j\in J}\Hom_R(X,Y_j)$であり、単射であり全射であることが示せる。
+\end{myproof}
+
+$\Hom$と完全列の性質を考える。
+「$0 \to X \xrightarrow{\varphi} Y \xrightarrow{\psi} Z$が完全列なら、
+\begin{align}
+  0 \to \Hom_R(M,X) \xrightarrow{\varphi\circ} \Hom_R(M,Y) \xrightarrow{\psi\circ} \Hom_R(M,Z)
+\end{align}
+」
+\begin{myproof}
+  \begin{itemize}
+    \item $\ker(\varphi\circ)=0$:
+    \easypicture{1427776668904.png}
+    \begin{enumerate}[label=\MARU{\arabic*}]
+      \item $\alpha \in \ker(\varphi\circ)$とする。$\varphi\alpha = 0$となる。
+      \item $x\in M$とする。
+      \item $x$を$\alpha$で飛ばす。
+      \item 三角形の可換で、$\varphi\alpha(x)=0$となる。
+      \item 完全性の左端を使って、$\alpha(x)=0$となる。
+      \item $x\in M$が任意だったので、$\alpha = 0$となる。
+    \end{enumerate}
+    \item $\Image (\varphi\circ) \subset \ker (\psi\circ)$:
+    \easypicture{1427778143104.png}
+    \begin{enumerate}[label=\MARU{\arabic*}]
+      \item $\alpha \in \Image (\varphi\circ)$とする。
+      \item $\varphi\alpha' = \alpha$となる$\alpha'$がある。
+      \item $x\in M$とする。
+      \item $x$を飛ばす。
+      \item $\alpha(x)$を飛ばす。
+      \item $\varphi\alpha'(x)$を飛ばす。
+      \item 可換性より、$\psi\varphi\alpha'(x)=0$となる。$x$は任意だったので、$\psi\alpha = 0$である。
+    \end{enumerate}
+    \item $\ker(\psi\circ)\subset \Image(\varphi\circ)$:
+    先の定理より従う。\footnote{よく考えたら、先の定理は
+    存在して一意を言っていたので、これですぐに$\ker(\psi\circ) = \Image(\varphi\circ)$が言えていた。
+    「0が実際に満たすが、それしかない」という議論ができた。 ← うそ}
+  \end{itemize}
+\end{myproof}
+
+双対的に、「$X \xrightarrow{\varphi} Y \xrightarrow{\psi}Z \to 0$が完全列なら、
+\begin{align}
+  0 \to \Hom_R(Z,M) \xrightarrow{\circ \psi} \Hom_R(Y,M) \xrightarrow{\circ \varphi} \Hom_R(X,M)
+\end{align}
+も完全。」上のものとあわせて、0が左に来ているので「$\Hom$の左完全性」という。
+\begin{myproof}
+  図式だけ書く。$\ker (\circ \psi)=0$については、
+  \easypicture{1427783276783.png}
+  で示される。$\ker (\circ \varphi)\subset \Image (\circ \psi)$については、先の定理より自明。$\Image (\circ \psi) \subset \ker(\circ \varphi)$については、
+  \easypicture{1427783447397.png}
+\end{myproof}
+
+(本文にはないがちょっと)可換図式中で、0を端に持つ場合は同じ形の図式で置き換えられるか、ということを思うことがあるのでそれについて述べる。
+\easypicture{1427794426714.png}
+上の図では、$Y$からはじまり上を通って$0$に行くのと、
+$Y$からはじまり下を通って$0$に行く両方が完全列であるとする。
+このように、$A\to B$が定義でき、対称性から$B\to A$が定義できるので、
+$A$と$B$に同型がつく。そういうことで、上の列があらわれたら、それを
+下の列で置き換えても全体の図式はかわらないことになる。
+0を左に置いたときには、
+\easypicture{1427795262217.png}
+となる。
+
+「$R$加群の可換図式で、
+\begin{center}
+  \begin{tikzcd}
+    X_1 \ar[r, "\alpha_1"] \ar[d, "\varphi_1", two heads, hook] & X_2 \ar[r, "\alpha_2"] \ar[d, "\varphi_2", two heads, hook] & X_3 \ar[r] \ar[d, "\varphi_3"] & 0 \\
+    Y_1 \ar[r, "\beta_1"] & Y_2 \ar[r, "\beta_2"] & Y_3 \ar[r] & 0
+  \end{tikzcd}
+\end{center}
+において、各行が完全列で、$\varphi_1,\varphi\2$が同型なら$\varphi_3$も同型である。」
+\begin{myproof}
+  $\alpha_1 \colon X_1 \to X_2$から完全列
+  \begin{align}
+    X_1 \xrightarrow{\alpha_1} X_2 \xrightarrow{\alpha_2'} \cok(\alpha_1) \to 0
+  \end{align}
+  を作れる。また、$\beta_1\colon Y_1 \to Y_2$から完全列
+  \begin{align}
+    Y_1 \xrightarrow{\beta_1} Y_2 \xrightarrow{\beta_2'} \cok(\beta_1) \to 0
+  \end{align}
+  を作れる。先の完全列の交換の議論により、
+  \begin{center}
+    \begin{tikzcd}
+      X_1 \ar[r, "\alpha_1"] \ar[d, "\varphi_1", two heads, hook] & X_2 \ar[r, "\alpha_2", two heads] \ar[d, "\varphi_2", two heads, hook] & \cok(\alpha_1) \ar[r] \ar[d, "\varphi_3"] & 0 \\
+      Y_1 \ar[r, "\beta_1"] & Y_2 \ar[r, "\beta_2", two heads] & \cok(\beta_1) \ar[r] & 0
+    \end{tikzcd}
+  \end{center}
+  として一般性を失なわないことがわかった。
+  $\cok(\alpha_1)=X_2/\alpha_1(X_1),\, \cok(\beta_1)=Y_2/\beta_1(Y_1)$
+  だった。$\varphi_2 \colon X_2 \to Y_2$で同型がついている。
+  あとは$\alpha_1(X_1)\simeq \beta_1(Y_1)$がつけばよい。
+  \begin{align}
+    \varphi_2(\alpha_1(X_1))
+    =
+    \beta_1(\varphi_1(X_1))
+    =
+    \beta_1(Y_1)
+  \end{align}
+  であり、$\varphi_2$で$\alpha_1(X_1)$と$\beta_1(Y_1)$との間に同型がついている。示された。
+\end{myproof}
+
 \begin{enumerate}[label=(問題\arabic*)]
   \item
+まず、環になることを示す。加法群ではあるので、積の法則を調べればよい。
+\begin{description}
+  \item[1について]
+  \begin{align}
+    (1_R, 0_M)\cdot (a,u)
+    =
+    (1_R\cdot a, 1_R\cdot u + 0_M \cdot a)
+    =
+    (a, u).
+  \end{align}
+  \item[結合法則]
+  \begin{align}
+    ((a,u)(b,v))(c,w)
+    &=
+    (ab,av+ub)(c,w)\\
+    &=
+    (abc,abw+(av+ub)c)\\
+    &=
+    (abc,abw+avc+ubc)\\
+    &=
+    (abc,a(bw+vc)+ubc)\\
+    &=
+    (a,u)(bc,bw+vc)\\
+    &=
+    (a,u)((b,v)(c,w)).
+  \end{align}
+  \item[分配法則]
+  \begin{align}
+    (a,u)((b,v)+(c,w))
+    &=
+    (a,u)(b+c,v+w)\\
+    &=
+    a(v+w)+u(b+c)\\
+    &=
+    (av+ub)+(aw+uc)\\
+    &=
+    (a,u)(b,v) + (a,u)(c,w).
+  \end{align}
+\end{description}
+よって、環になる。
+\item $N,M/N$は有限生成なので、ネーター加群である。
+よって、$M$はネーター加群である。よって、$M$は有限生成である。
+\item $R$を$K$の2次下三角行列の環とする。
+\begin{align}
+  \tatev{1 & 0 \\ 0 & 0}R = \tatev{* & 0 \\ 0 & 0},\quad
+  R\tatev{1 & 0 \\ 0 & 0} = \tatev{* & 0 \\ * & 0}.
+\end{align}
+\item
+まず存在を示す。$Rx=Ry$なので、特に$x\in Ry$であり、$x=ay$となる$a\in R$が存在する。また、$y\in Rx$であり、$y=bx$となる$b\in R$が存在する。
+$xR\to yR$を左からの$b$倍とし、$yR \to xR$を右からの$a$倍とすればよい。
+
+次に反例を作る。
+\begin{align}
+  x = \tatev{1 & 0 \\ 0 & 0}, \quad
+  y = \tatev{0 & 0 \\ 0 & 1}
+\end{align}
+としてみる。
+\begin{align}
+  \tatev{K & K \\ K & K}x
+   =
+   \tatev{K & K \\ K & K}\tatev{1 & 0 \\ 0 & 0}
+   =
+   \tatev{K & 0 \\ K & 0},\quad
+   \tatev{K & K \\ K & K}y
+    =
+    \tatev{K & K \\ K & K}\tatev{0 & 0 \\ 0 & 1}
+    =
+    \tatev{0 & K \\ 0 & K}
+\end{align}
+であり、$(K)_2 x \simeq (K)_2 y$という$(K)_2$-同型がつく。
+実際、$\varphi\colon Rx \to Ry$を、$X\mapsto X\tatev{0 & 1 \\ 1 & 0}$
+と定める。これは、$\tatev{0 & 1 \\ 1 & 0}$を右からかけているので、
+$\varphi$は左から$R$をかけても大丈夫で、和の法則も満たし(左)$R$準同型になっている。これで、同型$f\colon xR \to yR$があると仮定する。
+しかし、
+\begin{align}
+  \tatev{0 & 0 \\ 0 & 1}
+  &=
+  \tatev{0 & 0 \\ 0 & 1}\tatev{0 & 0 \\ 0 & 1}\\
+  &=
+  \tatev{0 & 0 \\ 0 & 1}f\tatev{1 & 0 \\ 0 & 0}\\
+  &=
+  f(\tatev{0 & 0 \\ 0 & 1} \tatev{1 & 0 \\ 0 & 0})\\
+  &=
+  f\tatev{0 & 0 \\ 0 & 0}\\
+  &=
+  0.
+\end{align}
+これは矛盾である。
+
+\item
+\easypicture{1427821775969.png}
+としておく。
+\begin{itemize}
+  \item $f_{32}$が全射:
+  \easypicture{1427821910986.png}
+  \item $\Image f_{31} \subset \ker f_{32}$:
+  \easypicture{1427822011315.png}
+  \item $\ker f_{32}\subset \Image f_{31}$:
+  \easypicture{1427822169784.png}
+  \item $f_{31}$が単射:
+  \easypicture{1427823234042.png}
+  ？
+\end{itemize}
 
 \end{enumerate}
+
+\section{加群の直和分解と直既約分解}
+\label{sec:加群の直和分解と直既約分解}
+\subsection{加群の直和分解}
+\label{sub:加群の直和分解}
+
 
 
 
