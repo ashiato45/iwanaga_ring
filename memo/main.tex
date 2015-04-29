@@ -1474,7 +1474,71 @@ $\varphi$は左から$R$をかけても大丈夫で、和の法則も満たし(�
 \subsection{加群の直和分解}
 \label{sub:加群の直和分解}
 
+飛ばす～
 
+半単純加群の特徴付け。「$R$加群$M$について、次の条件は同値。
+\begin{enumerate}[label=(\arabic*)]
+  \item $M$は半単純加群。
+  \item $M$の任意の部分加群は$M$の直和因子。
+  \item $M$の任意の部分加群は$M$の直和因子。
+  \item 任意の完全列$0\to L \to M \to 0$は分裂する。
+\end{enumerate}」
+\begin{myproof}
+  \begin{itemize}
+    \item (1)$\implies$(2):
+      $M$は半単純加群なので、$M=\bigoplus_{i\in I}M_i$となるインデックス$I$と、
+      $M$の単純な部分加群たち$(M_i)_{i\in I}$がある。$N$を$M$の部分加群とする。
+      $\pi\colon M\to M/N$を標準的な写像とする。$\pi\seigen{M_i}$は、
+      $M_i$が単純加群なので0写像か同型写像である。
+      $\sum_{i\in I}\pi(M_i) = M/N$なので、
+      $M/N = \bigoplus_{j\in J}\pi(M_j)$かつ$\pi(M_j)\neq 0$(つまり$\pi(M_j)\simeq M_j$)となる$J\subset I$が存在する。$K=I-J$とする。
+      $(M_j)_{j\in J}$たちは定義より$\pi$で消えないことが保証されており、
+      $(M_k)_{k\in K}$たちは$\pi$で消えるかもしれないし消えないかもしれない。
+      よって、$\pi$で消えるものたちのインデックスはすべて$K$であり、
+      $N \subset \bigoplus_{k\in K}M_k$である。
+      これで、$N$を包む$M_\bullet$たちのつくりかたがわかったので、
+      \begin{align}
+        \cal K = \set{K\subset I; N \subset \bigoplus_{k\in K}M_k}
+      \end{align}
+      とし、これに$\supset$(逆向きの包含)でZornの補題を適用できることを示す。
+      \begin{itemize}
+        \item $\cal K$が空でないこと:上で存在を示した。\footnote{$I$そのものが入っている。と言おうとしたがこのときは直和にならないので嘘だった。}
+        \item 全順序部分集合に上界があること:
+        全順序な$\cal K$の列$K_0 \supset K_1 \supset \dots$を考える。
+        $K_\infty = \bigcap_{i=0}^\infty K_i$を考えると、これは確かに
+        $N\subset \sum_{k\in K_\infty}M_k$にはなっており、さらに$K_\infty\subset I$で
+        $I$は直和への分解のインデックスだったので、$\sum_{k\in K_\infty}M_k = \bigoplus_{k\in K_\infty}M_k$である。よって、$K_\infty$がこの列の
+      \end{itemize}
+      よって、$\cal K$には$\supset$の極大元があるので、つまり
+      $N\subset \bigoplus_{k\in K}M_k$なる$K$のうち、極小なものが選べる。
+      これを$K_0$とする。つまり、$N$を包む直和のうち上から詰めた。
+      ここで、$N=\bigoplus_{k\in K_0}M_k$であることを示そう。
+      $M'= \bigoplus_{k\in K_0}M_k$とする。$N\subset M'$なので、$N$で割る。
+      $\pi'\colon M' \to M'/N$を標準的写像とする。
+      $K_0$の定義から和は直和で、
+      $M'/N = \sum_{k\in K_0}\pi'(M_k)$である。
+      よって、$A\subset K_0$が存在して、$M'/N = \sum_{a\in A}\pi'(M_a)$かつ
+      $\pi'(M_a)\neq 0$となるものが存在する。
+      $B=K_0-A$とすると、$M' = (\bigoplus_{a\in A}M_a)\oplus (\bigoplus_{b\in B}M_b)$となる。$A$は$\pi'$をかけて0でないことが保証されており、
+      $B$のほうはどうだかわからない。よって、$N\subset \bigoplus_{b\in B}M_b$となる
+      $B$の作り方がわかったので、
+      $\cal B=\set{B\subset K_0 ; N \subset \bigoplus_{b\in B}M_b}$を考え、Zornを同様に適用する。ここで得られる極小を$B_0$とする。
+      $K_0$も$B_0$も極小としたので、$K_0 = B_0$である。このときに対応する$A$は
+      $A_0 = K_0 - B_0$である。
+      すると、
+      \begin{align}
+        \bigoplus_{k\in K_0} = M'
+        =
+        (\bigoplus_{a\in A_0} M_a)\oplus (\bigoplus_{b\in B_0}M_b)
+        =
+        (\bigoplus_{a\in A_0} M_a) \oplus (\bigoplus_{k\in K_0}M_k)
+      \end{align}
+      である。よって、$\bigoplus_{a\in A_0}M_a = 0$であり、$A_0 = \emptyset$である。
+      つまり、$\pi$で消えない$M_k$が存在せず、$k\in K_0$について
+      $\pi(M_k)=0$となり、$M_k \subset N$ということになった。よって、$\bigoplus_{k\in K_0} M_k \subset N$となる。
+      よって、$\bigoplus_{k\in K_0}M_k = N$となった。
+  \end{itemize}
+\end{myproof}
 
 
 
